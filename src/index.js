@@ -5,16 +5,12 @@ const fs = require('fs');
 const path = require('path');
 
 const args = process.argv.slice(2);
-const [target, as] = args;
-if (!target) error();
-
-const name = target.split('@').slice(0, -1).join('@');
-const version = target.split('@').slice(-1).join('@');
-if (!name) error();
-if (!version) error();
+const [npmPackage, destinationOverride] = args;
+if (!npmPackage) error();
 
 const shx = './node_modules/.bin/shx';
 const tempDir = './.npm-install-version-temp';
+var caughtError = false;
 
 
 try {
@@ -27,19 +23,26 @@ try {
     cwd: tempDir,
     stdio: [null, null, null],
   };
-  execSync(`npm install ${target}`, installOptions);
+  execSync(`npm install ${npmPackage}`, installOptions);
 
   // copy to node_modules/
-  const destination = as ? `${name}@${as}` : target;
+  const destination = destinationOverride || npmPackage;
   execSync(`${shx} rm -rf node_modules/${destination}`);
+  const name = fs.readdirSync(`${tempDir}/node_modules/`)[0];
   execSync(`${shx} mv ${tempDir}/node_modules/${name} node_modules/${destination}`);
 
-  console.log(`Installed ${target} to node_modules/${destination}/`);
+  console.log(`Installed ${name} from ${npmPackage} to node_modules/${destination}/`);
 }
-catch (err) {}
+catch (err) {
+  caughtError = true;
+  console.log(`Error installing ${npmPackage}`);
+  console.log(err.toString());
+}
 finally {
   // clean up temp install dir
   execSync(`${shx} rm -rf ${tempDir}`);
+
+  if (caughtError) process.exit(1);
 }
 
 

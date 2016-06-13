@@ -1,7 +1,7 @@
 {
   "name": "npm-install-version",
   "version": "1.0.0",
-  "description": "npm install package@1.2.3 to node_modules/package@1.2.3",
+  "description": "Install node modules to versioned directories.",
   "author": "Scott Hardy",
   "license": "MIT",
   "repository": "git@github.com:scott113341/npm-install-version.git",

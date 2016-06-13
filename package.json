@@ -1,6 +1,6 @@
 {
   "name": "npm-install-version",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "npm install package@1.2.3 to node_modules/package@1.2.3",
   "author": "Scott Hardy",
   "license": "MIT",

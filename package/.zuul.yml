@@ -1,0 +1,16 @@
+ui: tape
+browsers:
+  - name: chrome
+    version: latest
+  - name: firefox
+    version: latest
+  - name: safari
+    version: latest
+  - name: iphone
+    version: latest
+  - name: microsoftedge
+    version: latest
+browserify:
+  - transform: bulkify
+  - transform: brfs
+  - transform: folderify

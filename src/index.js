@@ -1,51 +1,53 @@
-#!/usr/bin/env node
-
 const execSync = require('child_process').execSync;
 const fs = require('fs');
 const path = require('path');
 
-const args = process.argv.slice(2);
-const [npmPackage, destinationOverride] = args;
-if (!npmPackage) error();
-
-const shx = './node_modules/.bin/shx';
-const tempDir = './.npm-install-version-temp';
-var caughtError = false;
+const SHX = 'node node_modules/.bin/shx';
+const TEMP = '.npm-install-version-temp';
 
 
-try {
-  // make temp install dir
-  execSync(`${shx} rm -rf ${tempDir}/`);
-  execSync(`${shx} mkdir -p ${tempDir}/node_modules/`);
+function install(npmPackage, destination=npmPackage) {
+  if (!npmPackage) error();
+  var errored = false;
 
-  // install package to temp dir
-  const installOptions = {
-    cwd: tempDir,
-    stdio: [null, null, null],
-  };
-  execSync(`npm install ${npmPackage}`, installOptions);
+  try {
+    // make temp install dir
+    execSync(`${SHX} rm -rf ${TEMP}/`);
+    execSync(`${SHX} mkdir -p ${TEMP}/node_modules/`);
 
-  // copy to node_modules/
-  const destination = destinationOverride || npmPackage;
-  execSync(`${shx} rm -rf node_modules/${destination}`);
-  const name = fs.readdirSync(`${tempDir}/node_modules/`)[0];
-  execSync(`${shx} mv ${tempDir}/node_modules/${name} node_modules/${destination}`);
+    // install package to temp dir
+    const installOptions = {
+      cwd: TEMP,
+      stdio: [null, null, null],
+    };
+    execSync(`npm install ${npmPackage}`, installOptions);
 
-  console.log(`Installed ${name} from ${npmPackage} to node_modules/${destination}/`);
-}
-catch (err) {
-  caughtError = true;
-  console.log(`Error installing ${npmPackage}`);
-  console.log(err.toString());
-}
-finally {
-  // clean up temp install dir
-  execSync(`${shx} rm -rf ${tempDir}`);
+    // copy to node_modules/
+    execSync(`${SHX} rm -rf node_modules/${destination}`);
+    const name = fs.readdirSync(`${TEMP}/node_modules/`)[0];
+    execSync(`${SHX} mv ${TEMP}/node_modules/${name} node_modules/${destination}`);
 
-  if (caughtError) process.exit(1);
+    console.log(`Installed ${npmPackage} to node_modules/${destination}/`);
+  }
+  catch (err) {
+    errored = true;
+    console.log(`Error installing ${npmPackage}`);
+    console.log(err.toString());
+  }
+  finally {
+    // clean up temp install dir
+    execSync(`${SHX} rm -rf ${TEMP}`);
+
+    if (errored) process.exit(1);
+  }
 }
 
 
 function error() {
   throw Error('You must specify an install target like this: csjs@1.0.0');
 }
+
+
+module.exports = {
+  install,
+};

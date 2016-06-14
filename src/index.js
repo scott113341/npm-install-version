@@ -5,7 +5,7 @@ const path = require('path');
 const { alreadyInstalled, error, sanitize } = require('./util.js');
 
 const SHX = 'node node_modules/.bin/shx';
-const TEMP = '.npm-install-version-temp';
+const TEMP = 'node_modules/.npm-install-version-temp';
 
 
 function install(npmPackage, destination, overwrite=false) {

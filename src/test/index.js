@@ -1,7 +1,10 @@
+const execSync = require('child_process').execSync;
 const fs = require('fs');
 const test = require('tape');
-
 const niv = require('../index.js');
+
+
+execSync(`./node_modules/.bin/shx rm -rf node_modules/csjs*`);
 
 
 test('niv#install normal', t => {

@@ -21,13 +21,14 @@
     "preversion": "npm run test && npm run build",
     "test": "npm run build && node lib/test/index.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "shx": "0.1.2"
+  },
   "devDependencies": {
     "babel": "6.5.2",
     "babel-cli": "6.10.1",
     "babel-preset-es2015": "6.9.0",
     "babel-preset-stage-0": "6.5.0",
-    "shx": "0.1.2",
     "tape": "4.5.1"
   }
 }

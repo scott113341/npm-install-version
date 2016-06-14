@@ -2,12 +2,15 @@ const execSync = require('child_process').execSync;
 const fs = require('fs');
 const path = require('path');
 
+const { error, sanitize } = require('./util.js');
+
 const SHX = 'node node_modules/.bin/shx';
 const TEMP = '.npm-install-version-temp';
 
 
-function install(npmPackage, destination=npmPackage) {
+function install(npmPackage, destination) {
   if (!npmPackage) error();
+  destination = destination || sanitize(npmPackage);
   var errored = false;
 
   try {
@@ -43,11 +46,12 @@ function install(npmPackage, destination=npmPackage) {
 }
 
 
-function error() {
-  throw Error('You must specify an install target like this: csjs@1.0.0');
+function requirePackage(npmPackage) {
+  return require(sanitize(npmPackage));
 }
 
 
 module.exports = {
   install,
+  require: requirePackage,
 };

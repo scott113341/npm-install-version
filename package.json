@@ -18,7 +18,7 @@
     "clean": "shx rm -rf lib/ && shx mkdir lib/",
     "prebuild": "npm run clean",
     "build": "babel --copy-files --out-dir lib/ src/",
-    "preversion": "npm run test && npm run build",
+    "preversion": "npm run test",
     "test": "npm run build && node lib/test/index.js"
   },
   "dependencies": {

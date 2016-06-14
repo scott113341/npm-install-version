@@ -2,17 +2,20 @@ const execSync = require('child_process').execSync;
 const fs = require('fs');
 const path = require('path');
 
-const { error, sanitize } = require('./util.js');
+const { alreadyInstalled, error, sanitize } = require('./util.js');
 
 const SHX = 'node node_modules/.bin/shx';
 const TEMP = '.npm-install-version-temp';
 
 
-function install(npmPackage, destination) {
+function install(npmPackage, destination, overwrite=false) {
   if (!npmPackage) error();
-  destination = destination || sanitize(npmPackage);
-  var errored = false;
+  destination = `node_modules/${destination || sanitize(npmPackage)}`;
+  if (!overwrite && alreadyInstalled(destination)) {
+    return console.log(`Directory ${destination} already exists, skipping`);
+  }
 
+  var errored = false;
   try {
     // make temp install dir
     execSync(`${SHX} rm -rf ${TEMP}/`);
@@ -26,11 +29,11 @@ function install(npmPackage, destination) {
     execSync(`npm install ${npmPackage}`, installOptions);
 
     // copy to node_modules/
-    execSync(`${SHX} rm -rf node_modules/${destination}`);
+    execSync(`${SHX} rm -rf ${destination}`);
     const name = fs.readdirSync(`${TEMP}/node_modules/`)[0];
-    execSync(`${SHX} mv ${TEMP}/node_modules/${name} node_modules/${destination}`);
+    execSync(`${SHX} mv ${TEMP}/node_modules/${name} ${destination}`);
 
-    console.log(`Installed ${npmPackage} to node_modules/${destination}/`);
+    console.log(`Installed ${npmPackage} to ${destination}`);
   }
   catch (err) {
     errored = true;

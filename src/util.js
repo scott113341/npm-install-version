@@ -1,4 +1,16 @@
+const fs = require('fs');
 const sanitizeFilename = require('sanitize-filename');
+
+
+function alreadyInstalled(destination) {
+  try {
+    fs.lstatSync(destination);
+    return true;
+  }
+  catch (e) {
+    return false;
+  }
+}
 
 
 function error() {
@@ -12,6 +24,7 @@ function sanitize(npmPackage) {
 
 
 module.exports = {
+  alreadyInstalled,
   error,
   sanitize,
 };

@@ -12,8 +12,8 @@ Install node modules to versioned directories.
 command | installs package | installed to
 --- | --- | ---
 `niv csjs@1.0.0` | csjs@1.0.0 | node_modules/csjs@1.0.0
-`niv csjs@1.0.0 first` | csjs@1.0.0 | node_modules/csjs@first
-`niv csjs@https://github.com/scott113341/csjs/tarball/some-branch testmaster` | https://github.com/scott113341/csjs/tarball/some-branch | node_modules/csjs@testmaster
+`niv csjs@1.0.0 custom-dir` | csjs@1.0.0 | node_modules/custom-dir
+`niv rtsao/csjs#some-branch csjs@some-branch` | github.com/rtsao/csjs#some-branch | node_modules/csjs@some-branch
 
 
 [npm-version-badge]: https://img.shields.io/npm/v/npm-install-version.svg?style=flat-square

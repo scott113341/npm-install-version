@@ -1,4 +1,0 @@
-instrumentation:
-  excludes:
-  - 'lib/base62-encode.js'
-  - 'lib/hash-string.js'

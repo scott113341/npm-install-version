@@ -65,3 +65,26 @@ test('cli install w/ overwrite', t => {
 
   t.end();
 });
+
+
+test('cli help', t => {
+  clean();
+  const out = execSync(`${CLI_PATH} --help`).toString();
+  t.equal(out.indexOf('usage: niv <package> [options...]'), 0);
+  t.equal(out.length > 100, true);
+  t.end();
+});
+
+
+test('cli no package', t => {
+  clean();
+  t.plan(2);
+  try {
+    execSync(`${CLI_PATH}`);
+  }
+  catch (e) {
+    const out = e.stdout.toString();
+    t.equal(out.indexOf('usage: niv <package> [options...]'), 0);
+    t.equal(out.length > 100, true);
+  }
+});

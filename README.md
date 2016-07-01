@@ -13,6 +13,29 @@ Install node modules to versioned or custom directories.
 
 Install globally: `npm install npm-install-version -g`
 
+```usage
+usage: niv <package> [options...]
+
+required:
+  
+  package
+    the package to be installed
+    gets passed directly to "npm install <package>"
+
+optional:
+  
+  --destination, -d
+    the destination install directory inside node_modules/
+    default: sanitized <package>
+  
+  --overwrite, -o
+    overwrite if there is already a package at [destination]
+    default: false
+  
+  --help, -h
+    display this message
+```
+
 command | installs package | installed to
 --- | --- | ---
 `niv csjs@1.0.0` | csjs@1.0.0 | node_modules/csjs@1.0.0

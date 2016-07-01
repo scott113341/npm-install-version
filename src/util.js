@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const sanitizeFilename = require('sanitize-filename');
 
 
@@ -10,6 +11,15 @@ function alreadyInstalled(destination) {
   catch (e) {
     return false;
   }
+}
+
+
+function displayHelp(exitCode=null) {
+  var readme = path.join(__dirname, '..', 'README.md');
+  var readmeText = String(fs.readFileSync(readme));
+  var readmeUsageText = /```usage\n([\s\S]*?)```/.exec(readmeText)[1];
+  process.stdout.write(readmeUsageText);
+  if (exitCode !== null) process.exit(exitCode);
 }
 
 
@@ -25,6 +35,7 @@ function sanitize(npmPackage) {
 
 module.exports = {
   alreadyInstalled,
+  displayHelp,
   error,
   sanitize,
 };

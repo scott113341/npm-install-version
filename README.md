@@ -6,21 +6,73 @@
 [![dev-dependencies][dev-dependencies-badge]][dev-dependencies-href]
 
 
-Install node modules to versioned directories.
+Install node modules to versioned or custom directories.
 
+
+## CLI Usage
+
+Install globally: `npm install npm-install-version -g`
+
+```usage
+usage: niv <package> [options...]
+
+required:
+  
+  package
+    the package to be installed
+    gets passed directly to "npm install <package>"
+
+optional:
+  
+  --destination, -d
+    the destination install directory inside node_modules/
+    default: sanitized <package>
+  
+  --overwrite, -o
+    overwrite if there is already a package at [destination]
+    default: false
+  
+  --help, -h
+    display this message
+```
 
 command | installs package | installed to
 --- | --- | ---
 `niv csjs@1.0.0` | csjs@1.0.0 | node_modules/csjs@1.0.0
 `niv csjs@1.0.0 custom-dir` | csjs@1.0.0 | node_modules/custom-dir
-`niv rtsao/csjs#some-branch csjs@some-branch` | github.com/rtsao/csjs#some-branch | node_modules/csjs@some-branch
+`niv rtsao/csjs#some-branch` | github.com/rtsao/csjs#some-branch | node_modules/rtsao-csjs#some-branch
+`niv rtsao/csjs#some-branch --destination=csjs@some-branch` | github.com/rtsao/csjs#some-branch | node_modules/csjs@some-branch
+
+
+## Programmatic Usage
+
+Install locally: `npm install npm-install-version --save-dev`
+
+```javascript
+const niv = require('node-install-version');
+const fs = require('fs');
+
+niv.install('csjs@1.0.0');
+const packageJson = JSON.parse(fs.readFileSync('node_modules/csjs@1.0.0/package.json'));
+console.log(packageJson.version);
+// "1.0.0"
+
+niv.install('csjs@1.0.0', { directory: 'some-dir' });
+// installs csjs@1.0.0 to node_modules/some-dir/
+
+niv.install('csjs@1.0.0', { directory: 'some-dir' });
+// doesn't do anything because node_modules/some-dir/ already exists
+
+niv.install('csjs@1.0.0', { directory: 'some-dir', overwrite: true });
+// removes node_modules/some-dir/ then installs csjs@1.0.0 to node_modules/some-dir/
+```
 
 
 [npm-version-badge]: https://img.shields.io/npm/v/npm-install-version.svg?style=flat-square
 [npm-version-href]: https://www.npmjs.com/package/npm-install-version
 
-[build-status-badge]: https://img.shields.io/travis/scott113341/npm-install-version.svg?style=flat-square
-[build-status-href]: https://travis-ci.org/scott113341/npm-install-version
+[build-status-badge]: https://img.shields.io/travis/scott113341/npm-install-version/master.svg?style=flat-square
+[build-status-href]: https://travis-ci.org/scott113341/npm-install-version/branches
 
 [dependencies-badge]: https://img.shields.io/david/scott113341/npm-install-version.svg?style=flat-square
 [dependencies-href]: https://david-dm.org/scott113341/npm-install-version#info=dependencies

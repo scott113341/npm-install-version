@@ -23,6 +23,7 @@
     "test": "npm run build && node lib/test/index.js"
   },
   "dependencies": {
+    "minimist": "1.2.0",
     "sanitize-filename": "1.6.0",
     "shx": "0.1.2"
   },

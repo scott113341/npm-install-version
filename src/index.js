@@ -8,11 +8,16 @@ const SHX = 'node node_modules/.bin/shx';
 const TEMP = 'node_modules/.npm-install-version-temp';
 
 
-function install(npmPackage, destination, overwrite=false) {
+function install(npmPackage, options={}) {
+  const {
+    destination = sanitize(npmPackage),
+    overwrite = false,
+  } = options;
+
   if (!npmPackage) error();
-  destination = `node_modules/${destination || sanitize(npmPackage)}`;
-  if (!overwrite && alreadyInstalled(destination)) {
-    return console.log(`Directory ${destination} already exists, skipping`);
+  const destinationPath = path.join('node_modules', destination);
+  if (!overwrite && alreadyInstalled(destinationPath)) {
+    return console.log(`Directory ${destinationPath} already exists, skipping`);
   }
 
   var errored = false;
@@ -29,11 +34,11 @@ function install(npmPackage, destination, overwrite=false) {
     execSync(`npm install ${npmPackage}`, installOptions);
 
     // copy to node_modules/
-    execSync(`${SHX} rm -rf ${destination}`);
+    execSync(`${SHX} rm -rf ${destinationPath}`);
     const name = fs.readdirSync(`${TEMP}/node_modules/`)[0];
-    execSync(`${SHX} mv ${TEMP}/node_modules/${name} ${destination}`);
+    execSync(`${SHX} mv ${TEMP}/node_modules/${name} ${destinationPath}`);
 
-    console.log(`Installed ${npmPackage} to ${destination}`);
+    console.log(`Installed ${npmPackage} to ${destinationPath}`);
   }
   catch (err) {
     errored = true;

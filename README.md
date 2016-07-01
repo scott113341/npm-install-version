@@ -6,14 +6,43 @@
 [![dev-dependencies][dev-dependencies-badge]][dev-dependencies-href]
 
 
-Install node modules to versioned directories.
+Install node modules to versioned or custom directories.
 
+
+## cli interface
+
+Install globally: `npm install npm-install-version -g`
 
 command | installs package | installed to
 --- | --- | ---
 `niv csjs@1.0.0` | csjs@1.0.0 | node_modules/csjs@1.0.0
 `niv csjs@1.0.0 custom-dir` | csjs@1.0.0 | node_modules/custom-dir
-`niv rtsao/csjs#some-branch csjs@some-branch` | github.com/rtsao/csjs#some-branch | node_modules/csjs@some-branch
+`niv rtsao/csjs#some-branch` | github.com/rtsao/csjs#some-branch | node_modules/rtsao-csjs#some-branch
+`niv rtsao/csjs#some-branch --destination=csjs@some-branch` | github.com/rtsao/csjs#some-branch | node_modules/csjs@some-branch
+
+
+## programmatic interface
+
+Install locally: `npm install npm-install-version`
+
+```javascript
+const niv = require('node-install-version');
+const fs = require('fs');
+
+niv.install('csjs@1.0.0');
+const packageJson = JSON.parse(fs.readFileSync('node_modules/csjs@1.0.0/package.json'));
+console.log(packageJson.version);
+// "1.0.0"
+
+niv.install('csjs@1.0.0', { directory: 'some-dir' });
+// installs csjs@1.0.0 to node_modules/some-dir/
+
+niv.install('csjs@1.0.0', { directory: 'some-dir' });
+// doesn't do anything because node_modules/some-dir/ already exists
+
+niv.install('csjs@1.0.0', { directory: 'some-dir', overwrite: true });
+// removes node_modules/some-dir/ then installs csjs@1.0.0 to node_modules/some-dir/
+```
 
 
 [npm-version-badge]: https://img.shields.io/npm/v/npm-install-version.svg?style=flat-square

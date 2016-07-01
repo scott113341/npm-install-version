@@ -36,13 +36,6 @@ optional:
     display this message
 ```
 
-command | installs package | installed to
---- | --- | ---
-`niv csjs@1.0.0` | csjs@1.0.0 | node_modules/csjs@1.0.0
-`niv csjs@1.0.0 custom-dir` | csjs@1.0.0 | node_modules/custom-dir
-`niv rtsao/csjs#some-branch` | github.com/rtsao/csjs#some-branch | node_modules/rtsao-csjs#some-branch
-`niv rtsao/csjs#some-branch --destination=csjs@some-branch` | github.com/rtsao/csjs#some-branch | node_modules/csjs@some-branch
-
 
 ## Programmatic Usage
 

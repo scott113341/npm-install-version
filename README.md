@@ -49,7 +49,7 @@ niv.install('csjs@1.0.0', { directory: 'some-dir', overwrite: true });
 [npm-version-href]: https://www.npmjs.com/package/npm-install-version
 
 [build-status-badge]: https://img.shields.io/travis/scott113341/npm-install-version/master.svg?style=flat-square
-[build-status-href]: https://travis-ci.org/scott113341/npm-install-version/master
+[build-status-href]: https://travis-ci.org/scott113341/npm-install-version/branches
 
 [dependencies-badge]: https://img.shields.io/david/scott113341/npm-install-version.svg?style=flat-square
 [dependencies-href]: https://david-dm.org/scott113341/npm-install-version#info=dependencies

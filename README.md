@@ -9,7 +9,7 @@
 Install node modules to versioned or custom directories.
 
 
-## cli interface
+## CLI Usage
 
 Install globally: `npm install npm-install-version -g`
 
@@ -21,9 +21,9 @@ command | installs package | installed to
 `niv rtsao/csjs#some-branch --destination=csjs@some-branch` | github.com/rtsao/csjs#some-branch | node_modules/csjs@some-branch
 
 
-## programmatic interface
+## Programmatic Usage
 
-Install locally: `npm install npm-install-version`
+Install locally: `npm install npm-install-version --save-dev`
 
 ```javascript
 const niv = require('node-install-version');

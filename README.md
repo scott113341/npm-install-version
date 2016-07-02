@@ -42,7 +42,7 @@ optional:
 Install locally: `npm install npm-install-version --save-dev`
 
 ```javascript
-const niv = require('node-install-version');
+const niv = require('npm-install-version');
 const fs = require('fs');
 
 niv.install('csjs@1.0.0');

@@ -60,31 +60,41 @@ optional:
 
 Install locally: `npm install npm-install-version --save-dev`
 
-### Basic Usage
+#### Basic Example
 
-Install, then require a particular version of a package, `csjs@1.0.0`
+Let's say we want to benchmark a few versions of `csjs` against each other:
 
 ```javascript
 const niv = require('npm-install-version');
+const benchmark = require('./some-benchmark-function.js');
 
 niv.install('csjs@1.0.0');
 // installs csjs@1.0.0 to node_modules/csjs@1.0.0/
 
-const csjs = niv.require('csjs@1.0.0');
-// 
+niv.install('csjs@1.0.1');
+// installs csjs@1.0.1 to node_modules/csjs@1.0.1/
+
+const csjs_old = niv.require('csjs@1.0.0');
+const csjs_new = niv.require('csjs@1.0.1');
+// require the old and new versions of csjs
+
+benchmark([csjs_old, csjs_new], 'some-test-input');
+// run the benchmarks with our fake "benchmark" function
 ```
 
-### Advanced Usage
+#### Advanced Example
 
 ```javascript
+const niv = require('npm-install-version');
+
 niv.install('csjs@1.0.0', { directory: 'some-dir' });
 // installs csjs@1.0.0 to node_modules/some-dir/
 
-niv.install('csjs@1.0.0', { directory: 'some-dir' });
+niv.install('csjs@1.0.1', { directory: 'some-dir' });
 // doesn't do anything because node_modules/some-dir/ already exists
 
-niv.install('csjs@1.0.0', { directory: 'some-dir', overwrite: true });
-// removes node_modules/some-dir/ then installs csjs@1.0.0 to node_modules/some-dir/
+niv.install('csjs@1.0.1', { directory: 'some-dir', overwrite: true });
+// installs csjs@1.0.1 to node_modules/some-dir/, overwriting the existing install
 ```
 
 

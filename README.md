@@ -17,7 +17,7 @@ Install globally: `npm install npm-install-version -g`
 
 #### Example Usage
 
-```bash
+```text
 $ niv csjs@1.0.0
 # installs csjs@1.0.0 to node_modules/csjs@1.0.0/
 

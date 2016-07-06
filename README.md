@@ -79,7 +79,7 @@ const csjs_new = niv.require('csjs@1.0.1');
 // require the old and new versions of csjs
 
 benchmark([csjs_old, csjs_new], 'some-test-input');
-// run our fake "benchmark" function on the old and new versions of csjs
+// run our fake benchmark function on the old and new versions of csjs
 ```
 
 #### Advanced Example

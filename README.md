@@ -18,13 +18,13 @@ Install globally: `npm install npm-install-version -g`
 #### Example Usage
 
 ```bash
-niv csjs@1.0.0
+$ niv csjs@1.0.0
 # installs csjs@1.0.0 to "node_modules/csjs@1.0.0/"
 
-niv csjs@1.0.0 --destination csjs-v1
+$ niv csjs@1.0.0 --destination csjs-v1
 # installs csjs@1.0.0 to "node_modules/csjs-v1/"
 
-niv scott113341/csjs#some-branch --overwrite
+$ niv scott113341/csjs#some-branch --overwrite
 # installs https://github.com/scott113341/csjs#some-branch to "node_modules/scott113341-csjs#some-branch/"
 # notice how the installation directory is sanitized (the "/" is replaced with a "-")
 # overwrites the previously installed version there, which is useful if I just updated "some-branch"
@@ -79,7 +79,7 @@ const csjs_new = niv.require('csjs@1.0.1');
 // require the old and new versions of csjs
 
 benchmark([csjs_old, csjs_new], 'some-test-input');
-// run the benchmarks with our fake "benchmark" function
+// run our fake "benchmark" function on the old and new versions of csjs
 ```
 
 #### Advanced Example

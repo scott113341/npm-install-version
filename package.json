@@ -20,7 +20,7 @@
     "prebuild": "npm run clean",
     "build": "babel --copy-files --out-dir lib/ src/",
     "preversion": "npm run test",
-    "postversion": "npm-publish-safe-latest && git push origin master --tags",
+    "postversion": "npm-publish-safe-latest && git push --follow-tags",
     "test": "npm run build && node lib/test/index.js"
   },
   "dependencies": {

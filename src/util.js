@@ -14,17 +14,15 @@ function alreadyInstalled(destination) {
 }
 
 
-function displayHelp(exitCode=null) {
-  var readme = path.join(__dirname, '..', 'README.md');
-  var readmeText = String(fs.readFileSync(readme));
-  var readmeUsageText = /```usage\n([\s\S]*?)```/.exec(readmeText)[1];
-  process.stdout.write(readmeUsageText);
-  if (exitCode !== null) process.exit(exitCode);
+function error() {
+  throw Error('You must specify an install target like this: csjs@1.0.0');
 }
 
 
-function error() {
-  throw Error('You must specify an install target like this: csjs@1.0.0');
+function getUsage() {
+  var readme = path.join(__dirname, '..', 'README.md');
+  var readmeText = String(fs.readFileSync(readme));
+  return /```usage\n([\s\S]*?)```/.exec(readmeText)[1];
 }
 
 
@@ -35,7 +33,7 @@ function sanitize(npmPackage) {
 
 module.exports = {
   alreadyInstalled,
-  displayHelp,
   error,
+  getUsage,
   sanitize,
 };

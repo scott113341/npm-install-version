@@ -1,11 +1,12 @@
-const execSync = require('child_process').execSync;
+const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const shelljs = require('shelljs');
 
 const { alreadyInstalled, error, sanitize } = require('./util.js');
 
-const SHX = 'node node_modules/.bin/shx';
-const TEMP = 'node_modules/.npm-install-version-temp';
+
+const TEMP = path.join('node_modules', '.npm-install-version-temp');
 
 
 function install(npmPackage, options={}) {
@@ -23,20 +24,20 @@ function install(npmPackage, options={}) {
   var errored = false;
   try {
     // make temp install dir
-    execSync(`${SHX} rm -rf ${TEMP}/`);
-    execSync(`${SHX} mkdir -p ${TEMP}/node_modules/`);
+    shelljs.rm('-rf', TEMP);
+    shelljs.mkdir('-p', path.join(TEMP, 'node_modules'));
 
     // install package to temp dir
     const installOptions = {
       cwd: TEMP,
       stdio: [null, null, null],
     };
-    execSync(`npm install ${npmPackage}`, installOptions);
+    childProcess.spawnSync('npm', ['install', npmPackage], installOptions);
 
     // copy to node_modules/
-    execSync(`${SHX} rm -rf ${destinationPath}`);
-    const name = fs.readdirSync(`${TEMP}/node_modules/`)[0];
-    execSync(`${SHX} mv ${TEMP}/node_modules/${name} ${destinationPath}`);
+    shelljs.rm('-rf', destinationPath);
+    const name = fs.readdirSync(path.join(TEMP, 'node_modules'))[0];
+    shelljs.mv(path.join(TEMP, 'node_modules', name), destinationPath);
 
     console.log(`Installed ${npmPackage} to ${destinationPath}`);
   }
@@ -47,7 +48,7 @@ function install(npmPackage, options={}) {
   }
   finally {
     // clean up temp install dir
-    execSync(`${SHX} rm -rf ${TEMP}`);
+    shelljs.rm('-rf', TEMP);
 
     if (errored) process.exit(1);
   }

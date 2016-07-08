@@ -30,17 +30,17 @@
     "test": "npm run build && node lib/test/index.js"
   },
   "dependencies": {
-    "minimist": "1.2.0",
-    "sanitize-filename": "1.6.0",
-    "shelljs": "0.7.0"
+    "minimist": "^1.2.0",
+    "sanitize-filename": "^1.6.0",
+    "shelljs": "^0.7.0"
   },
   "devDependencies": {
-    "babel": "6.5.2",
-    "babel-cli": "6.10.1",
-    "babel-preset-es2015": "6.9.0",
-    "babel-preset-stage-0": "6.5.0",
-    "npm-publish-safe-latest": "1.1.6",
-    "shx": "0.1.2",
-    "tape": "4.6.0"
+    "babel": "^6.5.2",
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "npm-publish-safe-latest": "^1.1.6",
+    "shx": "^0.1.2",
+    "tape": "^4.6.0"
   }
 }

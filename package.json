@@ -39,7 +39,7 @@
     "babel-cli": "6.10.1",
     "babel-preset-es2015": "6.9.0",
     "babel-preset-stage-0": "6.5.0",
-    "npm-publish-safe-latest": "1.1.5",
+    "npm-publish-safe-latest": "1.1.6",
     "tape": "4.6.0"
   }
 }

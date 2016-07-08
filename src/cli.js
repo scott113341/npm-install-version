@@ -2,7 +2,7 @@
 
 const minimist = require('minimist');
 const niv = require('./index.js');
-const { displayHelp } = require('./util.js');
+const { getUsage } = require('./util.js');
 
 
 const options = {
@@ -20,7 +20,13 @@ const options = {
 
 const args = minimist(process.argv.slice(2), options);
 
-if (args.help) displayHelp(0);
-if (!args._.length) displayHelp(1);
+if (args.help) {
+  process.stdout.write(getUsage());
+  process.exit(0);
+}
+if (!args._.length) {
+  process.stderr.write(getUsage());
+  process.exit(1);
+}
 
 niv.install(args._[0], args);

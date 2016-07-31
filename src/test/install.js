@@ -1,5 +1,6 @@
 const fs = require('fs');
 const test = require('tape');
+const shelljs = require('shelljs');
 
 const niv = require('../index.js');
 const { clean } = require('./test-util.js');
@@ -15,6 +16,17 @@ const { clean } = require('./test-util.js');
 test('niv.install normal', t => {
   clean();
   niv.install('csjs@1.0.0');
+  const packageJson = fs.readFileSync('node_modules/csjs@1.0.0/package.json');
+  t.equal(JSON.parse(packageJson).version, '1.0.0');
+  t.end();
+});
+
+
+test('niv.install with custom cmd', t => {
+  clean();
+  niv.install('csjs@1.0.0', {
+    cmd: shelljs.which('npm')
+  });
   const packageJson = fs.readFileSync('node_modules/csjs@1.0.0/package.json');
   t.equal(JSON.parse(packageJson).version, '1.0.0');
   t.end();

@@ -36,21 +36,25 @@ $ niv scott113341/csjs#some-branch --overwrite
 usage: niv <package> [options...]
 
 required:
-  
+
   package
     the package to be installed
     gets passed directly to "npm install <package>"
 
 optional:
-  
+
   --destination, -d
     the destination install directory inside node_modules/
     default: sanitized <package>
-  
+
   --overwrite, -o
     overwrite if there is already a package at [destination]
     default: false
-  
+
+  --cmd, -c
+    the custom command line
+    default: npm
+
   --help, -h
     display this message
 ```

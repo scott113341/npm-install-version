@@ -13,6 +13,7 @@ function install(npmPackage, options={}) {
   const {
     destination = sanitize(npmPackage),
     overwrite = false,
+    cmd = 'npm',
   } = options;
 
   if (!npmPackage) error();
@@ -32,7 +33,7 @@ function install(npmPackage, options={}) {
       cwd: TEMP,
       stdio: [null, null, null],
     };
-    childProcess.spawnSync('npm', ['install', npmPackage], installOptions);
+    childProcess.spawnSync(cmd, ['install', npmPackage], installOptions);
 
     // copy to node_modules/
     shelljs.rm('-rf', destinationPath);

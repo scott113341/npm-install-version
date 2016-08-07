@@ -8,11 +8,13 @@ const { getUsage } = require('./util.js');
 const options = {
   default: {
     destination: undefined,
+    cmd: undefined,
     help: false,
     overwrite: undefined,
   },
   alias: {
     destination: 'd',
+    cmd: 'c',
     help: 'h',
     overwrite: 'o',
   },

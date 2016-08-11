@@ -16,7 +16,7 @@ function install(npmPackage, options={}) {
   } = options;
 
   if (!npmPackage) util.error();
-  const destinationPath = path.join('node_modules', destination);
+  const destinationPath = path.join(process.cwd(), 'node_modules', destination);
   if (!overwrite && util.directoryExists(destinationPath)) {
     return console.log(`Directory at ${destinationPath} already exists, skipping`);
   }

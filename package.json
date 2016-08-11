@@ -1,6 +1,6 @@
 {
   "name": "npm-install-version",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "description": "Installs node modules to versioned or custom directories.",
   "author": "Scott Hardy",
   "license": "MIT",

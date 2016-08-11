@@ -1,9 +1,11 @@
+const deasync = require('deasync');
 const fs = require('fs');
+const npm = require('npm');
 const path = require('path');
 const sanitizeFilename = require('sanitize-filename');
 
 
-function alreadyInstalled(destination) {
+function directoryExists(destination) {
   try {
     fs.lstatSync(destination);
     return true;
@@ -16,6 +18,15 @@ function alreadyInstalled(destination) {
 
 function error() {
   throw Error('You must specify an install target like this: csjs@1.0.0');
+}
+
+
+function getPackageName(packageName) {
+  const load = deasync(npm.load);
+  load({ loaded: false });
+
+  const fetchPackageMetadata = deasync(require('npm/lib/fetch-package-metadata.js'));
+  return fetchPackageMetadata(packageName, process.cwd()).name;
 }
 
 
@@ -32,8 +43,9 @@ function sanitize(npmPackage) {
 
 
 module.exports = {
-  alreadyInstalled,
+  directoryExists,
   error,
+  getPackageName,
   getUsage,
   sanitize,
 };

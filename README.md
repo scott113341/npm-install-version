@@ -51,10 +51,6 @@ optional:
     overwrite if there is already a package at [destination]
     default: false
 
-  --cmd, -c
-    the custom command line
-    default: npm
-
   --help, -h
     display this message
 ```

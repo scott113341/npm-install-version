@@ -30,6 +30,15 @@ test('cli install remote', t => {
 });
 
 
+test('cli install w/ dependencies', t => {
+  clean();
+  run('push-dir@0.2.2');
+  const packageJson = fs.readFileSync('node_modules/push-dir@0.2.2/package.json');
+  t.equal(JSON.parse(packageJson).version, '0.2.2');
+  t.end();
+});
+
+
 test('cli install w/ destination', t => {
   clean();
   run('csjs@1.0.0', '--destination=csjs@yolo');

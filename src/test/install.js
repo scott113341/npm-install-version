@@ -1,6 +1,5 @@
 const fs = require('fs');
 const test = require('tape');
-const shelljs = require('shelljs');
 
 const niv = require('../index.js');
 const { clean } = require('./test-util.js');
@@ -22,22 +21,20 @@ test('niv.install normal', t => {
 });
 
 
-test('niv.install with custom cmd', t => {
-  clean();
-  niv.install('csjs@1.0.0', {
-    cmd: shelljs.which('npm')
-  });
-  const packageJson = fs.readFileSync('node_modules/csjs@1.0.0/package.json');
-  t.equal(JSON.parse(packageJson).version, '1.0.0');
-  t.end();
-});
-
-
 test('niv.install remote', t => {
   clean();
   niv.install('scott113341/csjs#extract-extends-performance');
   const packageJson = fs.readFileSync('node_modules/scott113341-csjs#extract-extends-performance/package.json');
   t.equal(JSON.parse(packageJson).version, '1.0.4');
+  t.end();
+});
+
+
+test('niv.install w/ dependencies', t => {
+  clean();
+  niv.install('push-dir@0.2.2');
+  const packageJson = fs.readFileSync('node_modules/push-dir@0.2.2/package.json');
+  t.equal(JSON.parse(packageJson).version, '0.2.2');
   t.end();
 });
 

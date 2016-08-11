@@ -87,13 +87,13 @@ benchmark([csjs_old, csjs_new], 'some-test-input');
 ```javascript
 const niv = require('npm-install-version');
 
-niv.install('csjs@1.0.0', { directory: 'some-dir' });
+niv.install('csjs@1.0.0', { destination: 'some-dir' });
 // installs csjs@1.0.0 to node_modules/some-dir/
 
-niv.install('csjs@1.0.1', { directory: 'some-dir' });
+niv.install('csjs@1.0.1', { destination: 'some-dir' });
 // doesn't do anything because node_modules/some-dir/ already exists
 
-niv.install('csjs@1.0.1', { directory: 'some-dir', overwrite: true });
+niv.install('csjs@1.0.1', { destination: 'some-dir', overwrite: true });
 // installs csjs@1.0.1 to node_modules/some-dir/, overwriting the existing install
 ```
 

@@ -30,6 +30,7 @@
     "test": "npm run build && node lib/test/index.js"
   },
   "dependencies": {
+    "deasync": "^0.1.7",
     "fs-extra": "^0.30.0",
     "minimist": "^1.2.0",
     "npm": "^3.10.5",

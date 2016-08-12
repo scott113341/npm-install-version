@@ -4,14 +4,6 @@ const test = require('tape');
 const niv = require('../index.js');
 const { clean } = require('./test-util.js');
 
-
-// left intentionally blank
-// so this lines up with cli.js
-
-
-
-
-
 test('niv.install normal', t => {
   clean();
   niv.install('csjs@1.0.0');
@@ -19,7 +11,6 @@ test('niv.install normal', t => {
   t.equal(JSON.parse(packageJson).version, '1.0.0');
   t.end();
 });
-
 
 test('niv.install remote', t => {
   clean();
@@ -29,7 +20,6 @@ test('niv.install remote', t => {
   t.end();
 });
 
-
 test('niv.install w/ dependencies', t => {
   clean();
   niv.install('push-dir@0.2.2');
@@ -38,7 +28,6 @@ test('niv.install w/ dependencies', t => {
   t.end();
 });
 
-
 test('niv.install w/ destination', t => {
   clean();
   niv.install('csjs@1.0.0', { destination: 'csjs@yolo' });
@@ -46,7 +35,6 @@ test('niv.install w/ destination', t => {
   t.equal(JSON.parse(packageJson).version, '1.0.0');
   t.end();
 });
-
 
 test('niv.install w/o overwrite', t => {
   clean();
@@ -60,7 +48,6 @@ test('niv.install w/o overwrite', t => {
 
   t.end();
 });
-
 
 test('niv.install w/ overwrite', t => {
   clean();

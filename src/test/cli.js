@@ -5,12 +5,10 @@ const test = require('tape');
 
 const { clean } = require('./test-util.js');
 
-
 const CLI_PATH = path.join(__dirname, '..', 'cli.js');
-function run(...commands) {
-  spawnSync(CLI_PATH, commands, { stdio:[0,1,2] });
+function run (...commands) {
+  spawnSync(CLI_PATH, commands, { stdio: [0, 1, 2] });
 }
-
 
 test('cli install normal', t => {
   clean();
@@ -20,7 +18,6 @@ test('cli install normal', t => {
   t.end();
 });
 
-
 test('cli install remote', t => {
   clean();
   run('scott113341/csjs#extract-extends-performance');
@@ -28,7 +25,6 @@ test('cli install remote', t => {
   t.equal(JSON.parse(packageJson).version, '1.0.4');
   t.end();
 });
-
 
 test('cli install w/ dependencies', t => {
   clean();
@@ -38,7 +34,6 @@ test('cli install w/ dependencies', t => {
   t.end();
 });
 
-
 test('cli install w/ destination', t => {
   clean();
   run('csjs@1.0.0', '--destination=csjs@yolo');
@@ -46,7 +41,6 @@ test('cli install w/ destination', t => {
   t.equal(JSON.parse(packageJson).version, '1.0.0');
   t.end();
 });
-
 
 test('cli install w/o overwrite', t => {
   clean();
@@ -61,7 +55,6 @@ test('cli install w/o overwrite', t => {
   t.end();
 });
 
-
 test('cli install w/ overwrite', t => {
   clean();
   run('csjs@1.0.0', '--destination=csjs@yolo');
@@ -75,7 +68,6 @@ test('cli install w/ overwrite', t => {
   t.end();
 });
 
-
 test('cli help', t => {
   clean();
   const out = spawnSync(CLI_PATH, ['--help']);
@@ -85,7 +77,6 @@ test('cli help', t => {
   t.equal(stdout.length > 100, true);
   t.end();
 });
-
 
 test('cli no package', t => {
   clean();

@@ -4,14 +4,12 @@ const shelljs = require('shelljs');
 
 const util = require('./util.js');
 
-
 const TEMP = path.join(process.cwd(), 'node_modules', '.npm-install-version-temp');
 
-
-function install(npmPackage, options={}) {
+function install (npmPackage, options = {}) {
   const {
     destination = util.sanitize(npmPackage),
-    overwrite = false,
+    overwrite = false
   } = options;
 
   if (!npmPackage) util.error();
@@ -29,7 +27,7 @@ function install(npmPackage, options={}) {
     // install package to temp dir
     const installOptions = {
       cwd: TEMP,
-      stdio: [null, null, null],
+      stdio: [null, null, null]
     };
     childProcess.spawnSync('npm', ['install', npmPackage], installOptions);
 
@@ -51,19 +49,16 @@ function install(npmPackage, options={}) {
     shelljs.mv(path.join(TEMP, 'node_modules', packageName), destinationPath);
 
     console.log(`Installed ${npmPackage} to ${destinationPath}`);
-  }
-  catch (err) {
+  } catch (err) {
     errored = true;
     console.log(`Error installing ${npmPackage}`);
     console.log(err.toString());
-  }
-  finally {
+  } finally {
     // clean up temp install dir
     shelljs.rm('-rf', TEMP);
 
     if (errored) process.exit(1);
   }
 }
-
 
 module.exports = install;

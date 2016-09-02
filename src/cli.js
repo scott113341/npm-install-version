@@ -4,20 +4,19 @@ const minimist = require('minimist');
 const niv = require('./index.js');
 const { getUsage } = require('./util.js');
 
-
 const options = {
   default: {
     destination: undefined,
     cmd: undefined,
     help: false,
-    overwrite: undefined,
+    overwrite: undefined
   },
   alias: {
     destination: 'd',
     cmd: 'c',
     help: 'h',
-    overwrite: 'o',
-  },
+    overwrite: 'o'
+  }
 };
 
 const args = minimist(process.argv.slice(2), options);

@@ -1,9 +1,7 @@
-const fs = require('fs');
 const test = require('tape');
 
 const niv = require('../index.js');
 const { clean } = require('./test-util.js');
-
 
 test('niv.require normal', t => {
   clean();
@@ -13,7 +11,6 @@ test('niv.require normal', t => {
   t.end();
 });
 
-
 test('niv.require remote', t => {
   clean();
   niv.install('scott113341/csjs#extract-extends-performance');
@@ -21,7 +18,6 @@ test('niv.require remote', t => {
   t.assert(typeof csjs, 'function');
   t.end();
 });
-
 
 test('niv.require w/ destination', t => {
   clean();

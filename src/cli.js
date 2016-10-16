@@ -9,13 +9,15 @@ const options = {
     destination: undefined,
     cmd: undefined,
     help: false,
-    overwrite: undefined
+    overwrite: undefined,
+    quiet: false
   },
   alias: {
     destination: 'd',
     cmd: 'c',
     help: 'h',
-    overwrite: 'o'
+    overwrite: 'o',
+    quiet: 'q'
   }
 };
 

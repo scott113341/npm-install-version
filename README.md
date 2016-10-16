@@ -51,6 +51,10 @@ optional:
     overwrite if there is already a package at [destination]
     default: false
 
+  --quiet, -q
+    suppress informational output
+    default: false
+
   --help, -h
     display this message
 ```

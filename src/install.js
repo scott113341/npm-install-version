@@ -9,13 +9,16 @@ const TEMP = path.join(process.cwd(), 'node_modules', '.npm-install-version-temp
 function install (npmPackage, options = {}) {
   const {
     destination = util.sanitize(npmPackage),
-    overwrite = false
+    overwrite = false,
+    quiet = false
   } = options;
+
+  const log = quiet ? () => {} : (...args) => console.log(...args);
 
   if (!npmPackage) util.error();
   const destinationPath = path.join(process.cwd(), 'node_modules', destination);
   if (!overwrite && util.directoryExists(destinationPath)) {
-    return console.log(`Directory at ${destinationPath} already exists, skipping`);
+    return log(`Directory at ${destinationPath} already exists, skipping`);
   }
 
   var errored = false;
@@ -48,11 +51,11 @@ function install (npmPackage, options = {}) {
     shelljs.rm('-rf', destinationPath);
     shelljs.mv(path.join(TEMP, 'node_modules', packageName), destinationPath);
 
-    console.log(`Installed ${npmPackage} to ${destinationPath}`);
+    log(`Installed ${npmPackage} to ${destinationPath}`);
   } catch (err) {
     errored = true;
-    console.log(`Error installing ${npmPackage}`);
-    console.log(err.toString());
+    console.error(`Error installing ${npmPackage}`);
+    console.error(err.toString());
   } finally {
     // clean up temp install dir
     shelljs.rm('-rf', TEMP);

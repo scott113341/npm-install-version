@@ -20,6 +20,14 @@ test('niv.install remote', t => {
   t.end();
 });
 
+test('niv.install scoped', t => {
+  clean();
+  niv.install('@scott113341/my-really-fast-module@1.0.0');
+  const packageJson = fs.readFileSync('node_modules/@scott113341-my-really-fast-module@1.0.0/package.json');
+  t.equal(JSON.parse(packageJson).version, '1.0.0');
+  t.end();
+});
+
 test('niv.install w/ dependencies', t => {
   clean();
   niv.install('push-dir@0.2.2');

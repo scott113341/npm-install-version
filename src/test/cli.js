@@ -26,6 +26,14 @@ test('cli install remote', t => {
   t.end();
 });
 
+test('cli install scoped', t => {
+  clean();
+  run('@scott113341/my-really-fast-module@1.0.0');
+  const packageJson = fs.readFileSync('node_modules/@scott113341-my-really-fast-module@1.0.0/package.json');
+  t.equal(JSON.parse(packageJson).version, '1.0.0');
+  t.end();
+});
+
 test('cli install w/ dependencies', t => {
   clean();
   run('push-dir@0.2.2');

@@ -21,8 +21,8 @@ test('niv.require remote', t => {
 
 test('niv.require scoped', t => {
   clean();
-  niv.install('@scott113341/my-really-fast-module@1.0.0');
-  const pkg = niv.require('@scott113341/my-really-fast-module@1.0.0');
+  niv.install('@scott113341/niv-scoped-test@1.0.0');
+  const pkg = niv.require('@scott113341/niv-scoped-test@1.0.0');
   t.assert(typeof pkg.addNumbers, 'function');
   t.end();
 });

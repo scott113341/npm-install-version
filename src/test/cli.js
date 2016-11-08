@@ -28,8 +28,8 @@ test('cli install remote', t => {
 
 test('cli install scoped', t => {
   clean();
-  run('@scott113341/my-really-fast-module@1.0.0');
-  const packageJson = fs.readFileSync('node_modules/@scott113341-my-really-fast-module@1.0.0/package.json');
+  run('@scott113341/niv-scoped-test@1.0.0');
+  const packageJson = fs.readFileSync('node_modules/@scott113341-niv-scoped-test@1.0.0/package.json');
   t.equal(JSON.parse(packageJson).version, '1.0.0');
   t.end();
 });

@@ -22,8 +22,8 @@ test('niv.install remote', t => {
 
 test('niv.install scoped', t => {
   clean();
-  niv.install('@scott113341/my-really-fast-module@1.0.0');
-  const packageJson = fs.readFileSync('node_modules/@scott113341-my-really-fast-module@1.0.0/package.json');
+  niv.install('@scott113341/niv-scoped-test@1.0.0');
+  const packageJson = fs.readFileSync('node_modules/@scott113341-niv-scoped-test@1.0.0/package.json');
   t.equal(JSON.parse(packageJson).version, '1.0.0');
   t.end();
 });

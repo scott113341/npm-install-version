@@ -25,12 +25,14 @@
   "scripts": {
     "build": "shx rm -rf lib/ && shx mkdir lib/ && babel --copy-files --source-maps --out-dir lib/ src/",
     "lint": "semistandard --fix",
+    "postinstall": "postinstall-build lib/ \"npm run build\"",
     "test": "npm run build && node lib/test/index.js"
   },
   "dependencies": {
     "deasync": "^0.1.7",
     "minimist": "^1.2.0",
     "npm": "^3.10.5",
+    "postinstall-build": "2.1.3",
     "sanitize-filename": "^1.6.0",
     "shelljs": "^0.7.0"
   },

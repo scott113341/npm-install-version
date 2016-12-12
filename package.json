@@ -40,7 +40,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "np": "^2.9.0",
     "semistandard": "^9.0.0",
-    "shx": "^0.1.2",
+    "shx": "^0.2.0",
     "tape": "^4.6.0"
   },
   "semistandard": {

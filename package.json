@@ -29,21 +29,21 @@
     "test": "npm run build && node lib/test/index.js"
   },
   "dependencies": {
-    "deasync": "^0.1.7",
+    "deasync": "^0.1.9",
     "minimist": "^1.2.0",
-    "npm": "^3.10.5",
+    "npm": "^4.0.3",
     "postinstall-build": "2.1.3",
-    "sanitize-filename": "^1.6.0",
-    "shelljs": "^0.7.0"
+    "sanitize-filename": "^1.6.1",
+    "shelljs": "^0.7.5"
   },
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "np": "^2.9.0",
-    "semistandard": "^9.0.0",
-    "shx": "^0.2.0",
-    "tape": "^4.6.0"
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "np": "^2.11.0",
+    "semistandard": "^9.2.1",
+    "shx": "^0.2.1",
+    "tape": "^4.6.3"
   },
   "semistandard": {
     "ignore": [

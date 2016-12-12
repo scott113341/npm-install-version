@@ -38,7 +38,7 @@ function install (npmPackage, options = {}) {
     const packageName = util.getPackageName(npmPackage);
 
     // move deps inside package
-    shelljs.mkdir(path.join(TEMP, 'node_modules', packageName, 'node_modules'));
+    shelljs.mkdir('-p', path.join(TEMP, 'node_modules', packageName, 'node_modules'));
     shelljs.ls(path.join(TEMP, 'node_modules'))
       .forEach(dep => {
         if (dep === packageName) return;

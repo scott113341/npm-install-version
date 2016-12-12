@@ -21,7 +21,7 @@ function install (npmPackage, options = {}) {
     return log(`Directory at ${destinationPath} already exists, skipping`);
   }
 
-  var errored = false;
+  let errored = false;
   try {
     // make temp install dir
     shelljs.rm('-rf', TEMP);

@@ -4,7 +4,8 @@ const shelljs = require('shelljs');
 
 const util = require('./util.js');
 
-const TEMP = path.join(process.cwd(), 'node_modules', '.npm-install-version-temp');
+const CWD = process.cwd();
+const TEMP = path.join(CWD, 'node_modules', '.npm-install-version-temp');
 
 function install (npmPackage, options = {}) {
   const {
@@ -16,7 +17,7 @@ function install (npmPackage, options = {}) {
   const log = quiet ? () => {} : (...args) => console.log(...args);
 
   if (!npmPackage) util.error();
-  const destinationPath = path.join(process.cwd(), 'node_modules', destination);
+  const destinationPath = path.join(CWD, 'node_modules', destination);
   if (!overwrite && util.directoryExists(destinationPath)) {
     return log(`Directory at ${destinationPath} already exists, skipping`);
   }
@@ -26,6 +27,12 @@ function install (npmPackage, options = {}) {
     // make temp install dir
     shelljs.rm('-rf', TEMP);
     shelljs.mkdir('-p', path.join(TEMP, 'node_modules'));
+
+    // copy local .npmrc file if exists
+    const npmrcFile = path.join(CWD, '.npmrc');
+    if (shelljs.test('-f', npmrcFile)) {
+      shelljs.cp(npmrcFile, TEMP);
+    }
 
     // install package to temp dir
     const installOptions = {

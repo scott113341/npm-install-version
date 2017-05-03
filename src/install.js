@@ -39,7 +39,8 @@ function install (npmPackage, options = {}) {
       cwd: TEMP,
       stdio: [null, null, null]
     };
-    childProcess.spawnSync('npm', ['install', npmPackage], installOptions);
+    const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+    childProcess.spawnSync(command, ['install', npmPackage], installOptions);
 
     // get real package name
     const packageName = util.getPackageName(npmPackage);

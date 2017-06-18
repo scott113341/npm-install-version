@@ -5,7 +5,7 @@ const shelljs = require('shelljs');
 const util = require('./util.js');
 
 const CWD = process.cwd();
-const TEMP = path.join(CWD, 'node_modules', '.npm-install-version-temp');
+const TEMP = path.join(CWD, 'node_modules', '.npm-install-version-temp' + Math.random());
 
 function install (npmPackage, options = {}) {
   const {

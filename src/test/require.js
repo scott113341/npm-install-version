@@ -34,3 +34,11 @@ test('niv.require w/ destination', t => {
   t.assert(typeof csjs, 'function');
   t.end();
 });
+
+test('niv.require path', t => {
+  clean();
+  niv.install('@scott113341/niv-scoped-test@1.0.0');
+  const packageJson = niv.require('@scott113341/niv-scoped-test@1.0.0', "package.json");
+  t.assert(packageJson.name = '@scott113341/niv-scoped-test');
+  t.end();
+})

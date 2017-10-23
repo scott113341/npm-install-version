@@ -35,10 +35,27 @@ function sanitize (npmPackage) {
   return sanitizeFilename(npmPackage, { replacement: '-' });
 }
 
+function tryCatchOptimizer(fn, errorFn, finalFn) {
+  var safeCallFunction = (fn, ...params) => {
+    if(typeof fn === "function") {
+      fn(...params);
+    }
+  }
+
+  try {
+    safeCallFunction(fn);
+  } catch(error) {
+    safeCallFunction(errorFn);
+  } finally {
+    safeCallFunction(finalFn);
+  }
+}
+
 module.exports = {
   directoryExists,
   error,
   getPackageName,
   getUsage,
-  sanitize
+  sanitize,
+  tryCatchOptimizer
 };

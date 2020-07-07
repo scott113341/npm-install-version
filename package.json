@@ -31,7 +31,7 @@
   "dependencies": {
     "deasync": "^0.1.9",
     "minimist": "^1.2.0",
-    "npm": "^4.0.3",
+    "npm": "^6.14.6",
     "postinstall-build": "2.1.3",
     "sanitize-filename": "^1.6.1",
     "shelljs": "^0.7.5"

@@ -1,11 +1,11 @@
 const childProcess = require('child_process');
 const path = require('path');
-const shelljs = require('shelljs');
+const fse = require("fs-extra");
 
 const util = require('./util.js');
 
 const CWD = process.cwd();
-const TEMP = path.join(CWD, 'node_modules', '.npm-install-version-temp' + Math.random());
+const TEMP = path.join(CWD, 'niv_modules', '.npm-install-version-temp' + Math.random());
 
 function install (npmPackage, options = {}) {
   const {
@@ -17,59 +17,80 @@ function install (npmPackage, options = {}) {
   const log = quiet ? () => {} : (...args) => console.log(...args);
 
   if (!npmPackage) util.error();
-  const destinationPath = path.join(CWD, 'node_modules', destination);
+  const destinationPath = path.join(CWD, 'niv_modules', destination);
   if (!overwrite && util.directoryExists(destinationPath)) {
     return log(`Directory at ${destinationPath} already exists, skipping`);
   }
 
-  let errored = false;
-  try {
+  // get real package name
+  let packageName;
+  
+  return util.getPackageName(npmPackage)
+    .then(function(result) {
+      packageName = result;
+    })
+    .then(() => fse.remove(TEMP))
     // make temp install dir
-    shelljs.rm('-rf', TEMP);
-    shelljs.mkdir('-p', path.join(TEMP, 'node_modules'));
+    .then(() => fse.mkdirs(path.join(TEMP, 'node_modules')))
 
     // copy local .npmrc file if exists
-    const npmrcFile = path.join(CWD, '.npmrc');
-    if (shelljs.test('-f', npmrcFile)) {
-      shelljs.cp(npmrcFile, TEMP);
-    }
+    .then(() => fse.pathExists(path.join(CWD, '.npmrc')))
+    .then((npmrcExists) => {
+      if (npmrcExists) {
+        return fse.copy(path.join(CWD, '.npmrc'), path.join(TEMP, ".npmrc"))
+      }
+    })
 
     // install package to temp dir
-    const installOptions = {
-      cwd: TEMP,
-      stdio: [null, null, null]
-    };
-    const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-    childProcess.spawnSync(command, ['install', npmPackage], installOptions);
+    .then(() => {
+      const installOptions = {
+        cwd: TEMP,
+        stdio: [null, null, null]
+      };
+      const command = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
-    // get real package name
-    const packageName = util.getPackageName(npmPackage);
+      return new Promise((resolve, reject) => {
+        const ps = childProcess.exec([command, 'install', npmPackage].join(" "), installOptions);
+
+        ps.stdout.on("data", (data) => log(data));
+        ps.stderr.on("data", (data) => log(data));
+        ps.on("close", (code) => {
+            if(code !== 0) {
+              return reject(`npm install process exited with code ${code}`)
+            }
+            resolve();
+          });
+      });
+    })
 
     // move deps inside package
-    shelljs.mkdir('-p', path.join(TEMP, 'node_modules', packageName, 'node_modules'));
-    shelljs.ls(path.join(TEMP, 'node_modules'))
-      .forEach(dep => {
-        if (dep === packageName) return;
-        const from = path.join(TEMP, 'node_modules', dep).toString();
-        const to = path.join(TEMP, 'node_modules', packageName, 'node_modules', dep).toString();
-        shelljs.mv(from, to);
-      });
+    .then(() => fse.mkdirs(path.join(TEMP, 'node_modules', packageName, 'node_modules')))
+    .then(() => {
+      const from = path.join(TEMP, 'node_modules');
+      const to = path.join(TEMP, 'node_modules', packageName, 'node_modules');
+      const filterRegex = new RegExp("^" + path.join(TEMP, 'node_modules', packageName));
+      const filter = (src, dest) => {
+        return !src.match(filterRegex);
+      }
 
-    // copy to node_modules/
-    shelljs.rm('-rf', destinationPath);
-    shelljs.mv(path.join(TEMP, 'node_modules', packageName), destinationPath);
+      return fse.copy(from, to, { filter });
+    })
 
-    log(`Installed ${npmPackage} to ${destinationPath}`);
-  } catch (err) {
-    errored = true;
-    console.error(`Error installing ${npmPackage}`);
-    console.error(err.toString());
-  } finally {
-    // clean up temp install dir
-    shelljs.rm('-rf', TEMP);
+    // copy to niv_modules/
+    .then(() => fse.remove(destinationPath))
+    .then(() => fse.move(path.join(TEMP, 'node_modules', packageName), destinationPath))
 
-    if (errored) process.exit(1);
-  }
+    // cleanup
+    .then(() => fse.remove(TEMP))
+    .then(
+      () => log(`Installed ${npmPackage} to ${destinationPath}`),
+      error => {
+        console.error(`Error installing ${npmPackage}`);
+        console.error(error.toString());
+
+        throw Error(`Error installing ${npmPackage}`);
+      }
+    );
 }
 
 module.exports = install;

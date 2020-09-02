@@ -1,4 +1,3 @@
-const deasync = require('deasync');
 const fs = require('fs');
 const npm = require('npm');
 const path = require('path');
@@ -17,12 +16,25 @@ function error () {
   throw Error('You must specify an install target like this: csjs@1.0.0');
 }
 
-function getPackageName (packageName) {
-  const load = deasync(npm.load);
-  load({ loaded: false });
+function getPackageName(packageName) {
+  return new Promise(function(resolve, reject) {
+    npm.load({ loaded: false }, function(err, result) {
+        if(err) {
+          return reject(err);
+        }
 
-  const fetchPackageMetadata = deasync(require('npm/lib/fetch-package-metadata.js'));
-  return fetchPackageMetadata(packageName, process.cwd()).name;
+        delete require.cache[require.resolve('npm/lib/fetch-package-metadata.js')];
+        var fetchPackageMeta = require('npm/lib/fetch-package-metadata.js');
+
+        fetchPackageMeta(packageName, process.cwd(), function(err, result) {
+          if(err) {
+            return reject(err);
+          }
+
+          return resolve(result.name);
+        });
+    });
+  });
 }
 
 function getUsage () {
@@ -35,10 +47,27 @@ function sanitize (npmPackage) {
   return sanitizeFilename(npmPackage, { replacement: '-' });
 }
 
+function tryCatchOptimizer (fn, errorFn, finalFn) {
+  var safeCallFunction = (fn, ...params) => {
+    if(typeof fn === "function") {
+      fn(...params);
+    }
+  }
+
+  try {
+    safeCallFunction(fn);
+  } catch(error) {
+    safeCallFunction(errorFn);
+  } finally {
+    safeCallFunction(finalFn);
+  }
+}
+
 module.exports = {
   directoryExists,
   error,
   getPackageName,
   getUsage,
-  sanitize
+  sanitize,
+  tryCatchOptimizer
 };

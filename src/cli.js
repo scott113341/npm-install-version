@@ -32,4 +32,18 @@ if (!args._.length) {
   process.exit(1);
 }
 
+if (args._.length > 1) {
+  if (args._[0] === "uninstall") {
+    niv.uninstall(args._[1])
+    process.exit(0);
+  }
+  if(args._[0] === "install") {
+    niv.install(args._[1], args)
+    .then(
+      () => process.exit(0),
+      () => process.exit(1)
+    );
+  }
+}
+
 niv.install(args._[0], args);
